@@ -1,7 +1,7 @@
 # OdinSpider
 
 ### Purpose
-This application is meant to be run in the terminal. It hits the courses in The Odin Project to collect the lessons in each course, and then parses the lessons for any anchor tags. That meet the criteria listed in `LinkExtensions`. A web request is made to the links and - if the response is bad - the broken link is output to the terminalf or further investigation.
+This application is meant to be run in the terminal. It hits the courses in The Odin Project to collect the lessons in each course, and then parses the lessons for any anchor tags that meet the criteria listed in `LinkExtensions`. A web request is made to the links and - if the response is bad - the broken link is output to the terminal for further investigation.
 
 ### How to Run
 You will need the .NET 5 SDK installed on your machine. You can find instructions to download it [here](https://dotnet.microsoft.com/download/dotnet/5.0).

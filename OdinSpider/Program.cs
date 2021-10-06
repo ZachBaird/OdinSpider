@@ -88,15 +88,13 @@ namespace OdinSpider
                     || link.TextContent.Contains("Improve this lesson"))
                     continue;
 
-                var textContent = link.TextContent;
-                var href = link.Href;
-
                 if (LinkExtensions.CanAdd(link, lesson.Href, ignoreList, completedParses))
                 {
                     Link model = new()
                     {
                         LinkText = link.TextContent,
-                        Href = link.Href
+                        Href = link.Href,
+                        ContainingPage = (string)document.Url
                     };
 
                     result.Add(model);
@@ -114,7 +112,7 @@ namespace OdinSpider
         /// <returns>True if the test is good or already has been done, false if it fails our test.</returns>
         static bool TestLink(Link link, List<Link> completedParses)
         {
-            // If the link is in our completed list, just return true;
+            // If the link is in our completed list, just return true.
             if (completedParses.Select(cp => cp.Href).Contains(link.Href))
                 return true;
 
@@ -129,7 +127,7 @@ namespace OdinSpider
                 if (response.StatusCode != HttpStatusCode.OK
                     && response.StatusCode != HttpStatusCode.Redirect)
                 {
-                    Console.WriteLine($"Found potential broken link: {link.Href}");
+                    Console.WriteLine($"\n\nFound potential broken link: {link.Href}");
                     return false;
                 }
 
@@ -206,7 +204,7 @@ namespace OdinSpider
                     }
                 }
 
-                Console.WriteLine("Tests Complete");
+                Console.WriteLine("Tests Complete\n");
 
                 if (brokenLinks.Count == 0)
                     Console.WriteLine("No broken links!");
@@ -214,7 +212,7 @@ namespace OdinSpider
                 {
                     Console.WriteLine("Investigate the following potential broken links:");
                     foreach (var link in brokenLinks)
-                        Console.WriteLine($"{link.LinkText} - {link.Href}");
+                        Console.WriteLine($"\nContaining Page: {link.ContainingPage}\n{link.LinkText}  -  {link.Href}");
                 }
             }
             catch (Exception ex)
@@ -222,8 +220,6 @@ namespace OdinSpider
                 Console.WriteLine("Something went wrong during execution");
                 Console.WriteLine(ex.Message);
             }
-
-            
         }
     }
 }
